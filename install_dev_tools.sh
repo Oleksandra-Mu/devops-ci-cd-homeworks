@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e
@@ -92,4 +93,3 @@ fi
 deactivate
 
 echo "Всі інструменти встановлені!"
-
