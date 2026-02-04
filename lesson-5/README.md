@@ -18,7 +18,6 @@
 lesson-5/
 ├── backend.tf
 ├── main.tf
-├── providers.tf
 ├── variables.tf
 ├── outputs.tf
 ├── modules/
@@ -29,13 +28,15 @@ lesson-5/
 │   │   └── outputs.tf
 │   ├── vpc/
 │   │   ├── vpc.tf
-│   │   ├── subnets.tf
+│   │   ├── outputs.tf
 │   │   ├── routes.tf
 │   │   └── variables.tf
 │   └── ecr/
 │       ├── ecr.tf
 │       ├── variables.tf
 │       └── outputs.tf
+├── README.md
+└──.gitignore 
 
 ```
 
