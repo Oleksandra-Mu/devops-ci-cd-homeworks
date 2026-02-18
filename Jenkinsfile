@@ -39,7 +39,7 @@ spec:
                     sh """
                     /kaniko/executor \
                       --context ${WORKSPACE} \
-                      --dockerfile ${WORKSPACE}/docker/django/Dockerfile \
+                      --dockerfile ${WORKSPACE}/Dockerfile \
                       --destination ${ECR_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} \
                       --cache=true
                     """

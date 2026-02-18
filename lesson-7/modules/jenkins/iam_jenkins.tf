@@ -11,8 +11,8 @@ resource "aws_iam_role" "jenkins_irsa_role" {
       Action = "sts:AssumeRoleWithWebIdentity",
       Condition = {
         StringEquals = {
-          # Замініть 'jenkins' на ваш namespace, якщо він інший
-          "${replace(var.oidc_provider_url, "https://", "")}:sub" = "system:serviceaccount:jenkins:jenkins"
+          # ТУТ ЗМІНЕНО: на кінці має бути саме ім'я вашого SA (jenkins-sa)
+          "${replace(var.oidc_provider_url, "https://", "")}:sub" = "system:serviceaccount:jenkins:jenkins-sa"
         }
       }
     }]
@@ -22,4 +22,15 @@ resource "aws_iam_role" "jenkins_irsa_role" {
 resource "aws_iam_role_policy_attachment" "jenkins_ecr_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
   role       = aws_iam_role.jenkins_irsa_role.name
+}
+
+resource "kubernetes_service_account" "jenkins_sa" {
+  metadata {
+    name      = "jenkins-sa"
+    namespace = "jenkins"
+    annotations = {
+      # ТУТ ВИПРАВЛЕНО: назва ресурсу тепер збігається (jenkins_irsa_role)
+      "eks.amazonaws.com/role-arn" = aws_iam_role.jenkins_irsa_role.arn
+    }
+  }
 }
