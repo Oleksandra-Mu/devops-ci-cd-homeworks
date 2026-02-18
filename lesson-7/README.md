@@ -65,25 +65,25 @@ terraform apply
 
 Для підтвердження необхідно ввести: yes
 
-##Налаштування доступу до кластера
+## Налаштування доступу до кластера
 ```bash
 aws eks update-kubeconfig --region eu-west-2 --name <cluster_name>
 ```
 
-##Перевірка Jenkins
+## Перевірка Jenkins
 ```bash
 kubectl get svc -n jenkins jenkins
 ```
 Відкрити http://<EXTERNAL-IP> → Увійти → Натиснути django-ci-cd → Build Now
 
-##Перевірка ArgoCD
+## Перевірка ArgoCD
 ```bash
 kubectl get svc -n argocd argo-cd-argocd-server
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 Відкрити https://<EXTERNAL-IP> → Перевірити django-app: Synced, Healthy
 
-##Доступ до застосунку
+## Доступ до застосунку
 ```bash
 kubectl get svc -n default django-app-django
 ```
@@ -104,7 +104,7 @@ kubectl get svc      # Отримання EXTERNAL-IP для доступу до
 terraform destroy
 ```
 
-##Screenshots
-![](images/Screenshot%202026-02-18%20191036.png)
-![](images/Screenshot%202026-02-18%20191125.png)
-![](images/Screenshot%202026-02-18%20191139.png)
+## Screenshots
+![](images/django-web.png)
+![](images/jenkins.png)
+![](images/argo-cd.png)
