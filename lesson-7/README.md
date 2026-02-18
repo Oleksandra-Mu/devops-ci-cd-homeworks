@@ -105,6 +105,6 @@ terraform destroy
 ```
 
 ## Screenshots
-![](images/django-web.png)
-![](images/jenkins.png)
-![](images/argo-cd.png)
+![](../images/django-web.png)
+![](../images/jenkins.png)
+![](../images/argo-cd.png)
