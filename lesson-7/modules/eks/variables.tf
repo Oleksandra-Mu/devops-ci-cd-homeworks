@@ -13,17 +13,17 @@ variable "subnet_ids" {
 }
 
 variable "instance_type" {
-  default = "t3.medium"
+  default = "t3.small"
 }
 
 variable "desired_size" {
-  default = 1
-}
-
-variable "max_size" {
   default = 2
 }
 
+variable "max_size" {
+  default = 3
+}
+
 variable "min_size" {
-  default = 1
+  default = 2
 }

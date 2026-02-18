@@ -7,3 +7,5 @@
 
 # Ігноруємо змінні з секретами
 *.tfvars
+# Helm secrets values file (local only)
+my-secrets-values.yaml

@@ -115,7 +115,7 @@ docker push <ecr_repository_url>:latest
 Перейдіть у папку з чартом та виконайте встановлення:
 
 ```bash
-cd charts/django-app
+cd django-chart
 helm install my-django .
 ```
 

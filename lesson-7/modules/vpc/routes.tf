@@ -1,7 +1,7 @@
 resource "aws_eip" "nat" {
   for_each = local.public
 
-  vpc = true
+  domain = "vpc"
 
   tags = {
     Name = "${var.vpc_name}-eip-${each.key}"

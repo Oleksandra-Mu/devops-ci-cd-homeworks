@@ -89,7 +89,7 @@ resource "aws_eks_node_group" "general" {
   cluster_name = aws_eks_cluster.eks.name
   
   # Ім'я групи вузлів
-  node_group_name = "general"
+  node_group_name = "general-v2"
   
   # IAM-роль для вузлів
   node_role_arn = aws_iam_role.nodes.arn
