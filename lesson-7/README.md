@@ -105,6 +105,6 @@ terraform destroy
 ```
 
 ##Screenshots
-!(images/Screenshot%202026-02-18%20191036.png)
-!(images/Screenshot%202026-02-18%20191125.png)
-!(images/Screenshot%202026-02-18%20191139.png)
+![](images/Screenshot%202026-02-18%20191036.png)
+![](images/Screenshot%202026-02-18%20191125.png)
+![](images/Screenshot%202026-02-18%20191139.png)
