@@ -1,6 +1,6 @@
 image:
   repository: 801867401886.dkr.ecr.eu-west-2.amazonaws.com/lesson-8-ecr
-  tag: build-14
+  tag: build-16
   pullPolicy: IfNotPresent
 
 service:
