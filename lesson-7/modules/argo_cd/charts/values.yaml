@@ -4,7 +4,7 @@ applications:
     project: default
     source:
       repoURL: ${github_repo_url}
-      path: django-chart
+      path: lesson-7/django-chart
       targetRevision: lesson-8-9
       helm:
         valueFiles:
