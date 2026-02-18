@@ -50,19 +50,23 @@ spec:
         stage('Update Git Manifest for Argo CD') {
             steps {
                 container('jgit') {
-                    // Використовуємо GitHub Token для пуша
                     withCredentials([string(credentialsId: 'github-token', variable: 'G_TOKEN')]) {
                         sh """
+                        # 1. Дозволяємо Git працювати в цій папці (лікуємо помилку 128)
+                        git config --global --add safe.directory ${WORKSPACE}
+                        
+                        # 2. Налаштовуємо користувача
                         git config --global user.email "jenkins@example.com"
                         git config --global user.name "Jenkins CI"
                         
-                        # Оновлюємо значення тегу у values.yaml за допомогою sed
+                        # 3. Оновлюємо тег
                         sed -i "s/tag: .*/tag: ${IMAGE_TAG}/g" ${CHART_PATH}/values.yaml
                         
+                        # 4. Фіксуємо зміни
                         git add ${CHART_PATH}/values.yaml
                         git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
                         
-                        # Пушимо в гілку lesson-8-9
+                        # 5. Пушимо
                         git push https://${G_TOKEN}@github.com/Oleksandra-Mu/devops-ci-cd-homeworks.git HEAD:lesson-8-9
                         """
                     }
