@@ -1,0 +1,11 @@
+Ігноруємо папку з провайдерами та модулями
+.terraform/
+
+# Ігноруємо файли стану (якщо ти не використовуєш S3 backend)
+*.tfstate
+*.tfstate.backup
+
+# Ігноруємо змінні з секретами
+*.tfvars
+# Helm secrets values file (local only)
+my-secrets-values.yaml

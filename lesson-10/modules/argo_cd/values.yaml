@@ -1,0 +1,7 @@
+# Argo CD Helm values
+server:
+  service:
+    # PRODUCTION NOTE: Use Ingress with TLS (AWS ALB + ACM or nginx-ingress + cert-manager)
+    # instead of LoadBalancer for secure production deployments
+    type: LoadBalancer
+    port: 443

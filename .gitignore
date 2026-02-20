@@ -1,0 +1,59 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+*.tfvars
+!example.tfvars
+rds-secrets.tfvars
+
+# Security - NEVER commit secrets!
+*-secrets.yaml
+my-secrets-values.yaml
+jenkins-secrets.yaml
+argo-secrets.yaml
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# SQLite (у development тільки)
+*.sqlite3
+db.sqlite3
+
+# Kubernetes
+kubeconfig
