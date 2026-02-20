@@ -13,6 +13,13 @@ resource "aws_rds_cluster" "aurora" {
   skip_final_snapshot             = false
   final_snapshot_identifier       = "${var.name}-final-snapshot"  
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.aurora[0].name
+  enable_http_endpoint            = false
+  storage_encrypted               = true
+
+  serverlessv2_scaling_configuration {
+    max_capacity = 1
+    min_capacity = 1
+  }
 
   tags = var.tags
 }

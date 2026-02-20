@@ -115,6 +115,8 @@ instance_class = "db.t3.medium"
 
 
 ## Screenshots
-![](../images/django-web.png)
-![](../images/jenkins.png)
-![](../images/argo-cd.png)
+![](images/db1.png)
+![](images/db2.png)
+![](images/dbrds.png)
+![](images/dbsg.png)
+![](images/dbsubnet.png)

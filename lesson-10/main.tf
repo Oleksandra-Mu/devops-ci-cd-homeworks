@@ -101,8 +101,9 @@ module "rds" {
   source = "./modules/rds"
 
   name                       = "myapp-db"
-  use_aurora                 = true
-  aurora_instance_count      = 2
+  use_aurora                 = false
+  aurora_instance_count      = 1
+  aurora_replica_count       = 0
 
   # --- Aurora-only ---
   engine_cluster             = "aurora-postgresql"
@@ -112,11 +113,11 @@ module "rds" {
 
   # --- RDS-only ---
   engine                     = "postgres"
-  engine_version             = "17.2"
-  parameter_group_family_rds = "postgres17"
+  engine_version             = "15"
+  parameter_group_family_rds = "postgres15"
 
   # Common
-  instance_class             = "db.t3.medium"
+  instance_class             = "db.t3.micro"
   allocated_storage          = 20
   db_name                    = "myapp"
   username                   = var.db_username
@@ -125,8 +126,8 @@ module "rds" {
   subnet_public_ids          = module.vpc.public_subnet_ids
   publicly_accessible        = true
   vpc_id                     = module.vpc.vpc_id
-  multi_az                   = true
-  backup_retention_period    = 7
+  multi_az                   = false
+  backup_retention_period    = 1
   parameters = {
     max_connections              = "200"
     log_min_duration_statement   = "500"

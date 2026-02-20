@@ -33,4 +33,6 @@ resource "kubernetes_service_account" "jenkins_sa" {
       "eks.amazonaws.com/role-arn" = aws_iam_role.jenkins_irsa_role.arn
     }
   }
+
+  depends_on = [helm_release.jenkins]
 }

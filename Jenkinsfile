@@ -29,7 +29,7 @@ spec:
         // Використовуємо номер білда як тег, щоб Argo CD бачив зміни
         IMAGE_TAG    = "build-${BUILD_NUMBER}"
         REPO_URL     = "https://github.com/Oleksandra-Mu/devops-ci-cd-homeworks.git"
-        CHART_PATH   = "lesson-7/django-chart"
+        CHART_PATH   = "lesson-10/django-chart"
     }
 
     stages {
@@ -67,7 +67,7 @@ spec:
                         git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
                         
                         # 5. Пушимо
-                        git push https://${G_TOKEN}@github.com/Oleksandra-Mu/devops-ci-cd-homeworks.git HEAD:lesson-8-9
+                        git push https://${G_TOKEN}@github.com/Oleksandra-Mu/devops-ci-cd-homeworks.git HEAD:lesson-db-module
                         """
                     }
                 }
