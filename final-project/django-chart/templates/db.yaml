@@ -3,5 +3,6 @@ kind: Service
 metadata:
 name: db
 spec:
+namespace: default
 type: ExternalName
 externalName: myapp-db.cj8iaoweohma.eu-west-2.rds.amazonaws.com
