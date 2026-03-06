@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-name: db
+  namespace: default
+  name: db
 spec:
-namespace: default
-type: ExternalName
-externalName: myapp-db.cj8iaoweohma.eu-west-2.rds.amazonaws.com
+
+  type: ExternalName
+  externalName: myapp-db.cj8iaoweohma.eu-west-2.rds.amazonaws.com
