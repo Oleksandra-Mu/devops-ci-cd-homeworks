@@ -1,122 +1,136 @@
-# RDS Module
+# Final project — Django Cloud Infrastructure & CI/CD Pipeline
 
-## Приклад використання
+## Опис
+У цьому проєкті реалізовано повний цикл розгортання інфраструктури та застосунку: від створення мережі та кластера EKS за допомогою Terraform до автоматизованого деплою Django за допомогою Jenkins та Argo CD.
 
-```hcl
-module "rds" {
-  source = "./modules/rds"
+Основні компоненти:
+Infrastructure (Terraform): VPC, S3 Backend, ECR, EKS Cluster.
 
-  name                       = "myapp-db"
-  use_aurora                 = true
-  aurora_instance_count      = 2
+Application (Helm): Django Deployment, Service (LoadBalancer), ConfigMap, HPA.
 
-  # --- Aurora-only ---
-  engine_cluster             = "aurora-postgresql"
-  engine_version_cluster     = "15.3"
-  parameter_group_family_aurora = "aurora-postgresql15"
-  
+Monitoring: Prometheus & Grafana.
 
-  # --- RDS-only ---
-  engine                     = "postgres"
-  engine_version             = "17.2"
-  parameter_group_family_rds = "postgres17"
+---
 
-  # Common
-  instance_class             = "db.t3.medium"
-  allocated_storage          = 20
-  db_name                    = "myapp"
-  username                   = var.db_username
-  password                   = var.db_password
-  subnet_private_ids         = module.vpc.private_subnets
-  subnet_public_ids          = module.vpc.public_subnets
-  publicly_accessible        = true
-  vpc_id                     = module.vpc.vpc_id
-  multi_az                   = true
-  backup_retention_period    = 7
-  parameters = {
-    max_connections              = "200"
-    log_min_duration_statement   = "500"
-  }
+## Структура проєкту
 
-  tags = {
-    Environment = "dev"
-    Project     = "myapp"
-  }
-}
-```
-
-## Змінні
-
-| Змінна | Тип | Default | Опис |
-|--------|-----|---------|------|
-| `name` | string | - | Назва RDS інстансу або Aurora кластера |
-| `use_aurora` | bool | false | Використовувати Aurora (true) чи стандартну RDS (false) |
-| `engine` | string | postgres | БД engine (для RDS) |
-| `engine_cluster` | string | aurora-postgresql | БД engine (для Aurora) |
-| `engine_version` | string | 14.7 | Версія engine (для RDS) |
-| `engine_version_cluster` | string | 15.3 | Версія engine (для Aurora) |
-| `instance_class` | string | db.t3.micro | Тип EC2 інстансу (db.t3.micro, db.t3.medium, db.t3.large) |
-| `allocated_storage` | number | 20 | Розмір диска у GB (для RDS) |
-| `db_name` | string | - | Ім'я бази даних для створення |
-| `username` | string | - | Мастер-користувач БД |
-| `password` | string (sensitive) | - | Пароль мастер-користувача (встановити у rds-secrets.tfvars!) |
-| `vpc_id` | string | - | ID VPC для розміщення БД |
-| `subnet_private_ids` | list(string) | - | IDs приватних підмереж |
-| `subnet_public_ids` | list(string) | - | IDs публічних підмереж |
-| `publicly_accessible` | bool | false | Дозволити публічний доступ до БД |
-| `multi_az` | bool | false | Включити Multi-AZ (high availability) |
-| `backup_retention_period` | number | 7 | Період зберігання backup (дні) |
-| `aurora_instance_count` | number | 2 | Кількість інстансів в Aurora кластері |
-| `aurora_replica_count` | number | 1 | Кількість read-only реплік в Aurora |
-| `parameters` | map(string) | {} | PostgreSQL параметри (max_connections, etc.) |
-| `tags` | map(string) | {} | AWS теги для ресурсів |
-
-## Outputs (результати)
-
-| Output | Опис |
-|--------|------|
-| `rds_endpoint` | Endpoint стандартної RDS (якщо use_aurora=false) |
-| `rds_address` | IP адреса RDS інстансу |
-| `rds_port` | Порт для підключення (5432 для PostgreSQL) |
-| `aurora_cluster_endpoint` | Endpoint Aurora для запису (writer) |
-| `aurora_reader_endpoint` | Endpoint Aurora для читання (load-balanced) |
-| `aurora_cluster_port` | Порт Aurora кластера (5432) |
-| `db_name` | Ім'я створеної бази даних |
-| `db_subnet_group_name` | Назва DB Subnet Group |
-| `security_group_id` | ID Security Group для доступу до БД |
-
-## Перемикання між RDS і Aurora
-
-```hsl
-use_aurora = false
-use_aurora = true
+```text
+.
+├── manage.py            # Точка входу Django
+├── goit/                # Налаштування проєкту (settings.py, urls.py)
+├── Dockerfile           # Інструкції для збірки образу
+├── Jenkinsfile          # Пайплайн автоматизації (CI)
+├── requirements.txt     # Залежності Python
+├── main.tf              # Основний файл Terraform
+├── final-project/
+│   ├── django-chart/    # Helm-чарт для деплою (CD)
+│   │   ├── values.yaml  # Конфігурація застосунку та тег образу
+│   │   └── templates/   # Маніфести Kubernetes
+│   └── modules/         # Модулі інфраструктури (VPC, EKS, ECR, S3, RDS)
+└── README.md
 
 ```
 
-## Зміна типу БД (engine)
+## Аутентифікація в AWS
 
-```hsl
-engine         = "postgres"
-engine_version = "17.2"
+Terraform використовує облікові дані AWS, що збережені локально у файлах:
+* `~/.aws/credentials`
+* `~/.aws/config`
 
+Щоб перевірити, під яким користувачем ви працюєте, виконайте:
+```bash
+aws sts get-caller-identity
 ```
 
-```hsl
-engine_cluster         = "aurora-postgresql"
-engine_version_cluster = "15.3"
+## Як запустити
 
+1. Ініціалізація
+Завантаження провайдерів та ініціалізація backend-частини (S3/DynamoDB).
+
+```bash
+terraform init
 ```
 
-## Зміна класу інстансу (потужності)
+2. Перевірка плану
+Перегляд списку ресурсів, які будуть створені в AWS.
 
-```hsl
-instance_class = "db.t3.medium"
+```bash
+terraform plan
 ```
 
+3. Створення інфраструктури
+Застосування конфігурації.
+
+```bash
+terraform apply
+```
+
+Для підтвердження необхідно ввести: yes
+
+## Налаштування доступу до кластера
+```bash
+aws eks update-kubeconfig --region eu-west-2 --name <cluster_name>
+```
+
+## Перевірка Jenkins
+```bash
+kubectl get svc -n jenkins jenkins
+```
+Відкрити http://<EXTERNAL-IP> → Увійти → Натиснути django-ci-cd → Build Now
+
+## Перевірка ArgoCD
+```bash
+kubectl get svc -n argocd argo-cd-argocd-server
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+Відкрити https://<EXTERNAL-IP> → Перевірити django-app: Synced, Healthy
+
+## Моніторинг
+
+Отримання пароля:
+```bash
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+Створення тунелю:
+```bash
+kubectl port-forward svc/grafana 3000:80 -n monitoring
+```
+
+Вхід у браузері:
+Адреса: http://localhost:3000.
+
+Логін: admin
+
+Пароль: (той, що ви отримали в першому кроці).
+
+## Доступ до застосунку
+```bash
+kubectl get svc -n default django-app-django
+```
+
+## Перевірка роботи
+Щоб перевірити статус розгорнутих ресурсів, використовуйте:
+
+```bash
+kubectl get pods     # Має бути 2/2 Running
+kubectl get hpa      # Перевірка статусу автоскейлера
+kubectl get svc      # Отримання EXTERNAL-IP для доступу до сайту
+```
+
+## Видалення ресурсів
+Щоб повністю видалити всю створену інфраструктуру та уникнути зайвих витрат:
+
+```bash
+terraform destroy
+```
 
 ## Screenshots
-![](images/db1.png)
-![](images/db2.png)
-![](images/dbrds.png)
-![](images/dbsg.png)
-![](images/dbsubnet.png)
+![](/images/jenkins.png)
+![](/images/jenkins-built.png)
+![](/images/argo.png)
+![](/images/argo-status.png)
+![](/images/django.png)
+![](/images/monitoring.png)
+![](/images/monitoring2.png)
+![](/images/grafana-prometeus.png)
