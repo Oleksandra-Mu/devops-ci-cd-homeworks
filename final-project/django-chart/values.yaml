@@ -23,7 +23,7 @@ config:
   POSTGRES_PORT: "5432"
 
 secrets:
-  POSTGRES_PASSWORD: ""
+  POSTGRES_PASSWORD: "SecurePostgres2024RDS!Pass"
 
 resources:
   requests:
