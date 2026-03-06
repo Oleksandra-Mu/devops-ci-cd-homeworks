@@ -1,5 +1,5 @@
 image:
-  repository: 801867401886.dkr.ecr.eu-west-2.amazonaws.com/final-project
+  repository: 801867401886.dkr.ecr.eu-west-2.amazonaws.com/final-project-ecr
   tag: build-18
   pullPolicy: IfNotPresent
 
