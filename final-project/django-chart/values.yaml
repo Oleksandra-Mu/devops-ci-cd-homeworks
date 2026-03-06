@@ -18,9 +18,10 @@ config:
   DEBUG: "True"
   SECRET_KEY: "key123"
   POSTGRES_DB: "django_db"
-  POSTGRES_USER: "django_user"
+  POSTGRES_USER: "postgres"
   POSTGRES_HOST: "myapp-db.cj8iaoweohma.eu-west-2.rds.amazonaws.com"
   POSTGRES_PORT: "5432"
+  POSTGRES_PASSWORD: "SecurePostgres2024RDS!Pass"
 
 secrets:
   POSTGRES_PASSWORD: "SecurePostgres2024RDS!Pass"
