@@ -25,7 +25,7 @@ spec:
 
     environment {
         ECR_REGISTRY = "801867401886.dkr.ecr.eu-west-2.amazonaws.com"
-        IMAGE_NAME   = "lesson-8-ecr"
+        IMAGE_NAME   = "final-project-ecr"
         // Використовуємо номер білда як тег, щоб Argo CD бачив зміни
         IMAGE_TAG    = "build-${BUILD_NUMBER}"
         REPO_URL     = "https://github.com/Oleksandra-Mu/devops-ci-cd-homeworks.git"
